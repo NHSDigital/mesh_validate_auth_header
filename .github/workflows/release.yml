@@ -2,9 +2,9 @@ name: build-header-validator
 on:
   push:
     branches: develop
-#  pull_request:
-#    branches:
-#      - develop
+  pull_request:
+    branches:
+      - develop
 
 jobs:
 
@@ -72,4 +72,24 @@ jobs:
 
       - run: flutter config --enable-windows-desktop
       - run: flutter build windows --release --build-number ${{github.run_number}}
-      - run: ls -R build/windows/x64
+      - run: echo ZIP_NAME="mesh-validate-auth-windows-${{needs.create_release.outputs.RELEASE_VERSION}}.zip" >> $GITHUB_ENV
+        shell: bash
+
+      - uses: thedoctor0/zip-release@main
+        with:
+          directory: 'build/windows/runner/Release'
+          type: 'zip'
+          filename: '${{ env.ZIP_NAME }}'
+
+      - run: ls build/windows/runner/Release
+      - run: ls ./
+
+      - name: upload bundle
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.create_release.outputs.RELEASE_URL}}
+          asset_name: ${{ env.ZIP_NAME }}
+          asset_path: build/windows/runner/Release/${{ env.ZIP_NAME }}
+          asset_content_type: application/zip
