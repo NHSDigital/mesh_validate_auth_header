@@ -1,0 +1,14 @@
+# NOTE: these comments are not really comments, they will be parsed
+
+# NOTE: if you modify this file, please test you haven't broken any other rules by running a full history scan via ./git-secrets --scan-history
+
+.gitallowed:
+.gitdisallowed:
+
+# remove the next line if you want to see an example violation with ./git-secrets --scan-history
+
+.*password=a secretsL:@@&%\^\$test
+
+String token = _validateToken
+token = token
+token = find.byKey\(const Key\('token'\)\)
