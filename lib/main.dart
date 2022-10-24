@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'NHS Digital MESH auth header validator',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -256,6 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         ConstrainedBox(
+                          key:  const Key('generate_page'),
                           constraints: const BoxConstraints(minHeight: 100),
                           child: Form(
                             key: _generateForm,
@@ -268,6 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('mailbox_id'),
                                     controller: _mailboxId,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -290,6 +292,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('mailbox_password'),
                                     controller: _mailboxPassword,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -311,6 +314,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('shared_key'),
                                     controller: _sharedKey,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -332,6 +336,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('nonce'),
                                     controller: _nonce,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -350,6 +355,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('nonce_count'),
                                     controller: _nonceCount,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -371,6 +377,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('timestamp'),
                                     controller: _timestamp,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -392,6 +399,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: ElevatedButton(
+                                    key: const Key("generate_button"),
                                     onPressed: _generateFormSubmit,
                                     child: const Text('generate auth header'),
                                   ),
@@ -399,6 +407,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextField(
+                                    key: const Key("generated_token"),
                                     controller: _generatedToken,
                                     readOnly: true,
                                     decoration: const InputDecoration(
@@ -429,6 +438,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         ConstrainedBox(
+                          key:  const Key('validate_page'),
                           constraints: const BoxConstraints(minHeight: 100),
                           child: Form(
                             key: _validateForm,
@@ -441,6 +451,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('mailbox_id'),
                                     controller: _mailboxId,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -463,6 +474,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('mailbox_password'),
                                     controller: _mailboxPassword,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -484,6 +496,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('shared_key'),
                                     controller: _sharedKey,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -505,6 +518,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
+                                    key: const Key('token'),
                                     controller: _validateToken,
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
@@ -523,13 +537,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: _paddingEight,
                                   child: ElevatedButton(
+                                    key: const Key("validate_button"),
                                     onPressed: _validateFormSubmit,
                                     child: const Text('validate auth header'),
                                   ),
                                 ),
                                 Padding(
                                   padding: _paddingEight,
-                                  child: Text(_validationResult,
+                                  child: Text(
+                                      _validationResult,
                                   style: TextStyle(
                                     color: _validationResultColor,
                                   )),
