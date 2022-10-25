@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:crypto/crypto.dart';
@@ -5,7 +6,6 @@ import 'dart:convert';
 
 RegExp _numeric = RegExp(r'^[0-9]+$');
 RegExp _timestamp = RegExp(r'^[1-9][0-9]{3}(?:0[1-9]|1[0-2])(?:[0-2][0-9]|3[0-1])(?:0[0-9]|1[0-9]|2[0-3])(?:[0-5][0-9])$');
-
 /// check if the string contains only numbers
 bool isNumeric(String str) {
   return _numeric.hasMatch(str);
@@ -15,7 +15,14 @@ bool validTimestamp(String str) {
   return _timestamp.hasMatch(str);
 }
 
+const _spaceFive = WidgetSpan(
+  child: Padding(
+    padding: EdgeInsets.only(left: 5),
+  ),
+);
+
 final Uri _docsUri = Uri.parse('https://digital.nhs.uk/developer/api-catalogue/message-exchange-for-social-care-and-health-api#api-description__mesh-authorization-header');
+final Uri _codeUri = Uri.parse('https://github.com/NHSDigital/mesh_validate_auth_header');
 
 void main() {
   runApp(const MyApp());
@@ -30,15 +37,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'NHS Digital MESH auth header validator',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Generate or Validate a MESH authorisation header'),
@@ -48,15 +46,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -82,13 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final _validateForm = GlobalKey<FormState>();
   String _validationResult = "";
   Color _validationResultColor = Colors.red;
-
-
-  Future<void> _openApiDocs() async {
-    if (!await launchUrl(_docsUri, mode: LaunchMode.externalApplication)) {
-      throw 'Could not launch $_docsUri';
-    }
-  }
 
   Future<void> _clearGenerated(String any) async {
     setState(() {
@@ -226,6 +208,38 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  final _intro =  RichText(
+    text: TextSpan(
+        style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+        children: [
+          const TextSpan(
+              text: "all data is validated locally",
+              style: TextStyle(fontWeight: FontWeight.bold)
+          ),
+          _spaceFive,
+          TextSpan(
+            text: 'view the mesh api documentation',
+            recognizer:  TapGestureRecognizer()..onTap = () async { await launchUrl(_docsUri, mode: LaunchMode.externalApplication); },
+            style: const TextStyle(
+              decoration: TextDecoration.underline,
+            ),
+          ),
+          _spaceFive,
+          const TextSpan(
+              text: "or"
+          ),
+          _spaceFive,
+          TextSpan(
+            text: 'view the source code',
+            recognizer:  TapGestureRecognizer()..onTap = () async { await launchUrl(_codeUri, mode: LaunchMode.externalApplication); },
+            style: const TextStyle(
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ]
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -233,6 +247,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(widget.title),
+            centerTitle: true,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Container(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(image: AssetImage('assets/logo.png'))
+                ), // child:const Text('This is my text over image'),
+              )
+            ),
             bottom: const TabBar(
               tabs: [
                 Tab(text: 'generate header'),
@@ -244,17 +267,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Center(
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        InkWell(
-                          onTap: _openApiDocs,
-                          child: const Text(
-                            'click to open mesh api docs, opens in browser',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
+                        _intro,
                         ConstrainedBox(
                           key:  const Key('generate_page'),
                           constraints: const BoxConstraints(minHeight: 100),
@@ -262,10 +277,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             key: _generateForm,
                             child: Column(
                               children: <Widget>[
-                                const Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                    child: Text('generate an auth header')
-                                ),
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
@@ -428,15 +439,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        InkWell(
-                          onTap: _openApiDocs,
-                          child: const Text(
-                            'click to open mesh api docs, opens in browser',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
+                        _intro,
                         ConstrainedBox(
                           key:  const Key('validate_page'),
                           constraints: const BoxConstraints(minHeight: 100),
@@ -444,10 +447,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             key: _validateForm,
                             child: Column(
                               children: <Widget>[
-                                const Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                    child: Text('validate an auth header')
-                                ),
                                 Padding(
                                   padding: _paddingEight,
                                   child: TextFormField(
