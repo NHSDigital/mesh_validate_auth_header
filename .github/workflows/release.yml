@@ -61,7 +61,7 @@ jobs:
           asset_content_type: application/zip
 
       - run: git checkout github-pages
-      - run: git merge develop --ff-only
+      - run: git merge develop
       - run: make publish-web
       - run: git add ./docs
       - run: git commit -m "publish-web"
