@@ -8,6 +8,7 @@ jobs:
 
   check:
     runs-on: ubuntu-latest
+    if: github.repository == 'NHSDigital/mesh_validate_auth_header'
     steps:
       - uses: actions/checkout@v3
 
