@@ -11,6 +11,8 @@ jobs:
     if: github.repository == 'NHSDigital/mesh_validate_auth_header'
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - uses: subosito/flutter-action@v2
         with:
@@ -23,3 +25,9 @@ jobs:
       - run: make check-secrets
       - run: flutter analyze
       - run: flutter test -r expanded
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
