@@ -60,8 +60,9 @@ jobs:
           asset_path: build/linux/x64/release/bundle/${{ env.ZIP_NAME }}
           asset_content_type: application/zip
 
+      - uses: fregante/setup-git-user@v1
       - run: git checkout github-pages
-      - run: git merge develop --ff-only
+      - run: git merge develop
       - run: make publish-web
       - run: git add ./docs
       - run: git commit -m "publish-web"
