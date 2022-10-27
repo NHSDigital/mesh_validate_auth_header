@@ -2,7 +2,18 @@
 
 mesh authorisation header validator
 
-## Getting Started
+## About this app
+
+This is an application to aid the creation and validation of a MESH api authorization header.
+All validation is performed locally using HMAC(256), your passwords will not leave your desktop
+
+[mesh api documentation](https://digital.nhs.uk/developer/api-catalogue/message-exchange-for-social-care-and-health-api#api-description__mesh-authorization-header)
+
+
+## Development
+
+Source code is all in `lib/main.dart` .. /windows /linux /web folders are auto generated (but can be customised)
+
 
 This project is a starting point for a Flutter application.
 
