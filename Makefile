@@ -41,11 +41,3 @@ check-secrets:
 
 check-secrets-all:
 	scripts/check-secrets.sh unstaged
-
-clean-web:
-	rm -rf ./docs
-
-publish-web: clean-web
-	flutter build web --release
-	cp -R build/web ./docs
-

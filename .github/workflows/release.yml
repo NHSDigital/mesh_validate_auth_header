@@ -63,7 +63,9 @@ jobs:
       - uses: fregante/setup-git-user@v1
       - run: git checkout github-pages
       - run: git merge develop
-      - run: make publish-web
+      - run: rm -rf ./docs
+      - run: flutter build web --release --base-href /${{ github.event.repository.name }}/
+      - run: cp -R build/web ./docs
       - run: git add ./docs
       - run: git commit -m "publish-web"
       - run: git push
@@ -81,7 +83,7 @@ jobs:
           channel: 'stable'
 
       - run: flutter config --enable-windows-desktop
-      - run: flutter build windows --release --build-number ${{github.run_number}} --base-href /${{ github.event.repository.name }}/
+      - run: flutter build windows --release --build-number ${{github.run_number}}
       - run: echo ZIP_NAME="mesh-validate-auth-windows-${{needs.create_release.outputs.RELEASE_VERSION}}.zip" >> $GITHUB_ENV
         shell: bash
 
