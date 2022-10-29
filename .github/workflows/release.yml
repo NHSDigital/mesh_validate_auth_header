@@ -81,7 +81,7 @@ jobs:
           channel: 'stable'
 
       - run: flutter config --enable-windows-desktop
-      - run: flutter build windows --release --build-number ${{github.run_number}}
+      - run: flutter build windows --release --build-number ${{github.run_number}} --base-href /${{ github.event.repository.name }}/
       - run: echo ZIP_NAME="mesh-validate-auth-windows-${{needs.create_release.outputs.RELEASE_VERSION}}.zip" >> $GITHUB_ENV
         shell: bash
 
