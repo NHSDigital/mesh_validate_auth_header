@@ -12,3 +12,7 @@
 String token = _validateToken
 token = token
 token = find.byKey\(const Key\('token'\)\)
+
+.*(GITHUB|SONAR)_TOKEN: \$\{\{ secrets.(GITHUB|SONAR)_TOKEN \}\}
+.*final mailboxPassword = find.byKey\(const Key\('mailbox_password'\)\);
+.*final (_validateToken|_generatedToken|_mailboxPassword) = TextEditingController\(\);
