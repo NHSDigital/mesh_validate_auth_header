@@ -12,3 +12,5 @@
 String token = _validateToken
 token = token
 token = find.byKey\(const Key\('token'\)\)
+
+\.github/workflows/dependabot-auto-merge\.yaml:[0-9]+:[[:space:]]+github-token:[[:space:]]+\$\{\{ secrets\.GITHUB_TOKEN \}\}
