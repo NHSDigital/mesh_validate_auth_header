@@ -12,9 +12,9 @@ jobs:
       RELEASE_VERSION: ${{ steps.release_version.outputs.RELEASE_VERSION }}
       RELEASE_URL: ${{ steps.upload_url.outputs.RELEASE_URL }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - run: echo RELEASE_VERSION="$(grep 'version:' pubspec.yaml | sed -En 's/^version:\s(.*)\+.*$/\1/p')+${{github.run_number}}" >> $GITHUB_ENV
-      - uses: actions/create-release@v1
+      - uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v.1.1.4
         id: create_release
         continue-on-error: false
         env:
@@ -32,10 +32,10 @@ jobs:
     if: github.repository == 'NHSDigital/mesh_validate_auth_header'
     needs: create_release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
         with:
           channel: 'stable'
 
@@ -51,7 +51,7 @@ jobs:
           zip -r "${{ env.ZIP_NAME }}" .
 
       - name: upload bundle
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -60,7 +60,7 @@ jobs:
           asset_path: build/linux/x64/release/bundle/${{ env.ZIP_NAME }}
           asset_content_type: application/zip
 
-      - uses: fregante/setup-git-user@v1
+      - uses: fregante/setup-git-user@024bc0b8e177d7e77203b48dab6fb45666854b35 # v2.0.2
       - run: git checkout github-pages
       - run: git merge develop
       - run: rm -rf ./docs
@@ -76,9 +76,9 @@ jobs:
     if: github.repository == 'NHSDigital/mesh_validate_auth_header'
     needs: create_release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
         with:
           channel: 'stable'
 
@@ -87,14 +87,14 @@ jobs:
       - run: echo ZIP_NAME="mesh-validate-auth-windows-${{needs.create_release.outputs.RELEASE_VERSION}}.zip" >> $GITHUB_ENV
         shell: bash
 
-      - uses: thedoctor0/zip-release@main
+      - uses: thedoctor0/zip-release@b57d897cb5d60cb78b51a507f63fa184cfe35554 # 0.7.6
         with:
           directory: 'build/windows/runner/Release'
           type: 'zip'
           filename: ${{ env.ZIP_NAME }}
 
       - name: upload bundle
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
