@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: "pub"
+    directory: "/"
+    commit-message:
+      prefix: "MESH-2092 "
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 7
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    commit-message:
+      prefix: "MESH-2092 "
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 7
+    groups:
+      dependencies:
+        patterns:
+          - "*"

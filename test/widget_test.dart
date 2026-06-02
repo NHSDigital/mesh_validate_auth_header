@@ -14,8 +14,14 @@ void main() {
   testWidgets('generate header', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     const size = Size(2048, 1024);
-    await tester.binding.setSurfaceSize(size);
-    tester.binding.window.physicalSizeTestValue = size;
+    tester.view.physicalSize = size;
+    tester.view.devicePixelRatio = 1.0;
+
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+    
     await tester.pumpWidget(const MyApp());
 
     final generateTab = find.text('generate header');
@@ -70,8 +76,14 @@ void main() {
   testWidgets('validate header', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     const size = Size(2048, 1024);
-    await tester.binding.setSurfaceSize(size);
-    tester.binding.window.physicalSizeTestValue = size;
+    tester.view.physicalSize = size;
+    tester.view.devicePixelRatio = 1.0;
+
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
     await tester.pumpWidget(const MyApp());
 
     final generateTab = find.text('validate header');
