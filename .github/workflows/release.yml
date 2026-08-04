@@ -12,7 +12,7 @@ jobs:
       RELEASE_VERSION: ${{ steps.release_version.outputs.RELEASE_VERSION }}
       RELEASE_URL: ${{ steps.upload_url.outputs.RELEASE_URL }}
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: echo RELEASE_VERSION="$(grep 'version:' pubspec.yaml | sed -En 's/^version:\s(.*)\+.*$/\1/p')+${{github.run_number}}" >> $GITHUB_ENV
       - uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
         id: create_release
@@ -32,7 +32,7 @@ jobs:
     if: github.repository == 'NHSDigital/mesh_validate_auth_header'
     needs: create_release
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'NHSDigital/mesh_validate_auth_header'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
@@ -98,7 +98,7 @@ jobs:
     if: github.repository == 'NHSDigital/mesh_validate_auth_header'
     needs: create_release
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
         with:
